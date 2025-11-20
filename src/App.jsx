@@ -12,28 +12,33 @@ const App = () => {
 
   return (
     <div
-      className='flex flex-col justify-center items-center h-screen bg-gray-300'
+      className='flex flex-col justify-center items-center h-screen bg-gradient-to-r from-blue-500 to-purple-400'
     >
-      <h1>To Do List</h1>
-      <input
-        type='text'
-        placeholder="enter ToDo"
-        value={text}
-        onChange = {(e)=> setText( e.target.value)}
-      ></input>
-      <button
-      onClick={addTodo}
-      >add</button>
-      <div className="displayTodo">
-        {todos.map((todo, index)=> (
-          <div>
-            <div key={index}>{todo}</div>
-            <input
-              type='checkbox'
-              
-            />
-          </div>
-        ))}
+      <div className='bg-white p-10 rounded-lg shadow-lg'>
+        <h1>To Do List</h1>
+        <div className='border-gray-200 border-2 p-2 rounded-xl'>
+          <input
+            type='text'
+            placeholder="enter ToDo"
+            value={text}
+            onChange = {(e)=> setText( e.target.value)}
+          ></input>
+          <button
+            className='bg-blue-500 text-white rounded-xl p-1 ml-2'
+            onClick={addTodo}
+          >add</button>
+        </div>
+        <div className="displayTodo flex flex-col gap-4 mt-4">
+          {todos.map((todo, index)=> (
+            <div className='flex bg-gray-200 rounded-xl p-2 items-center gap-4' key={index}>
+              <input
+                type='checkbox'
+              />
+              <div>{todo}</div>
+              <button className='bg-red-500 text-white rounded-xl p-1 ml-auto'>Delete</button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
