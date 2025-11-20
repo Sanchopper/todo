@@ -6,9 +6,13 @@ const App = () => {
 
   const addTodo = ()=> {
     if (!text.trim()) return
-    setTodos([...todos, text])
+    setTodos([...todos, {text: text, completed: false, id: Date.now()}])
     setText("")
+    console.log(todos)
   }
+
+
+
 
   return (
     <div
@@ -29,13 +33,22 @@ const App = () => {
           >add</button>
         </div>
         <div className="displayTodo flex flex-col gap-4 mt-4">
-          {todos.map((todo, index)=> (
-            <div className='flex bg-gray-200 rounded-xl p-2 items-center gap-4' key={index}>
+          {todos.map((todo)=> (
+            <div className='flex bg-gray-200 rounded-xl p-2 items-center gap-4' key={todo.id}>
               <input
                 type='checkbox'
+                checked={todo.completed}
+                onChange={() => setTodos(prev => 
+                  prev.map((t)=>(
+                  t.id === todo.id ? {...t, completed: !t.completed} : t
+          )))}
               />
-              <div>{todo}</div>
-              <button className='bg-red-500 text-white rounded-xl p-1 ml-auto'>Delete</button>
+              <div>{todo.text}</div>
+              <button className='bg-red-500 text-white rounded-xl p-1 ml-auto'
+                onClick={()=> setTodos(prev => 
+                  prev.filter((t)=> t.id !== todo.id)
+                )}
+              >Delete</button>
             </div>
           ))}
         </div>
