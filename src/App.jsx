@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const App = () => {
   const [todos, setTodos] = useState([])
@@ -7,9 +7,8 @@ const App = () => {
 
   const addTodo = ()=> {
     if (!text.trim()) return
-    setTodos([...todos, {text: text, completed: false, id: Date.now()}])
+    setTodos(prev=> [...prev, {text: text, completed: false, id: Date.now()}])
     setText("")
-    console.log(todos)
   }
 
 
@@ -18,6 +17,15 @@ const App = () => {
     if(filter==='completed') return todo.completed
     return true
   })
+
+  useEffect(()=> {
+    const saved = localStorage.getItem("todos")
+    if (saved) setTodos(JSON.parse(saved))
+  }, [])
+
+  useEffect(()=> {
+    localStorage.setItem("todos", JSON.stringify(todos))
+  }, [todos])
 
   return (
     <div
